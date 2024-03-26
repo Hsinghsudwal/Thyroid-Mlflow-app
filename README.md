@@ -1,5 +1,10 @@
 # Thyroid-Mlflow-app
 
+## Thyroid Diagnosis Challenges
+Thyroid disorders affect many people worldwide, the challenge for healthcare professionals in accurately diagnosing and . With the Thyroid Detection App using Streamlit, we aim to streamline the diagnostic process and help healthcare professionals to make informed decisions quickly and effectively.
+
+
+
 ## Attributes Information
 * Age: Age of the patient (numeric)
 * Sex: Sex of the patient (categorical: 'M' for male, 'F' for female)
