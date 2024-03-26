@@ -1,0 +1,12 @@
+pandas
+numpy
+streamlit
+lint
+scikit-learn
+seaborn
+pyyaml
+dill
+mlflow
+pydantic
+xgboost
+imblearn
