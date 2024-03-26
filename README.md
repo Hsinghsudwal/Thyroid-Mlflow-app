@@ -27,3 +27,5 @@ Sick: Whether the patient is sick (binary: 'Yes' or 'No')
 * TT4: Total thyroxine level in blood (numeric)
 * T4U: Thyroxine utilization rate in blood (numeric)
 * FTI: Free thyroxine index in blood (numeric)
+* Referral source:
+* Target: 
