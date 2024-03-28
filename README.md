@@ -1,9 +1,20 @@
 # Thyroid-Mlflow-app
+### *Project Title*
+
+`Thyroid Mlflow App`
+
+### *Technologies* 
+
+`Machine Learning Technology`
+
+### *Domain* 
+
+`Healthcare`
+
+## Description.
 
 ## Thyroid Diagnosis Challenges
-Thyroid disorders affect many people worldwide, the challenge for healthcare professionals in accurately diagnosing and . With the Thyroid Detection App using Streamlit, we aim to streamline the diagnostic process and help healthcare professionals to make informed decisions quickly and effectively.
-
-
+Thyroid disorders affect many people worldwide, the challenge for healthcare professionals in accurately diagnosing. The Thyroid App using Streamlit, to streamline the diagnostic process and help healthcare professionals to make informed decisions.
 
 ## Attributes Information
 * Age: Age of the patient (numeric)
@@ -27,5 +38,47 @@ Sick: Whether the patient is sick (binary: 'Yes' or 'No')
 * TT4: Total thyroxine level in blood (numeric)
 * T4U: Thyroxine utilization rate in blood (numeric)
 * FTI: Free thyroxine index in blood (numeric)
-* Referral source:
-* Target: 
+* Referral_Source - (str)
+* classes - hyperthyroidism diagnosis (str) 
+
+*Approach:* The classical machine learning tasks:
+- EDA, 
+- Data Preprocessing,
+- Feature Engineering, 
+- Model Training and Testing.
+
+inputs: Age, Sex, On_thyroxine, Query_on_thyroxine, On_antithyroid_medication, Sick, Pregnant, Thyroid_surgery, I131_treatment, Query_hypothyroid, Query_hyperthyroid, Lithium, Goitre, Tumor, Hypopituitary, Psych, TSH, T3, TT4, T4U, FTI, Referral_Source.
+
+outputs: classes
+
+# Run Locally
+
+Clone the project
+
+```bash
+  git clone
+```
+
+Go to the project directory
+
+```bash
+  cd Thyroid-Mlflow-app
+```
+
+Install dependencies
+
+```bash
+  pip install -r requirements.txt
+```
+
+On local
+
+```bash
+  python src/data_ingestion.py
+  ```
+
+Start the server `streamlit`
+
+```bash
+  streamlit run app.py
+```
