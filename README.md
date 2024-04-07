@@ -1,20 +1,45 @@
-# Thyroid-Mlflow-app
-### *Project Title*
+### *Project Title:* `Thyroid Mlflow App`
 
-`Thyroid Mlflow App`
+### *Technologies:* `Machine Learning Technology`
 
-### *Technologies* 
+### *Domain:* `Healthcare`
 
-`Machine Learning Technology`
-
-### *Domain* 
-
-`Healthcare`
-
-## Description.
+### *Deploy:* `link`
 
 ## Thyroid Diagnosis Challenges
 Thyroid disorders affect many people worldwide, the challenge for healthcare professionals in accurately diagnosing. The Thyroid App using Streamlit, to streamline the diagnostic process and help healthcare professionals to make informed decisions.
+
+# Run Locally
+
+Clone the project
+
+```bash
+  git clone
+```
+
+Go to the project directory
+
+```bash
+  cd Thyroid-Mlflow-app
+```
+
+Install dependencies
+
+```bash
+  pip install -r requirements.txt
+```
+
+On local
+
+```bash
+  python src/pipeline.py
+  ```
+
+Start the server `streamlit`
+
+```bash
+  streamlit run app.py
+```
 
 ## Attributes Information
 * Age: Age of the patient (numeric)
@@ -51,34 +76,3 @@ inputs: Age, Sex, On_thyroxine, Query_on_thyroxine, On_antithyroid_medication, S
 
 outputs: classes
 
-# Run Locally
-
-Clone the project
-
-```bash
-  git clone
-```
-
-Go to the project directory
-
-```bash
-  cd Thyroid-Mlflow-app
-```
-
-Install dependencies
-
-```bash
-  pip install -r requirements.txt
-```
-
-On local
-
-```bash
-  python src/data_ingestion.py
-  ```
-
-Start the server `streamlit`
-
-```bash
-  streamlit run app.py
-```
