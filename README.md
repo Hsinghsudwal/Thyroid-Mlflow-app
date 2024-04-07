@@ -4,7 +4,7 @@
 
 ### *Domain:* `Healthcare`
 
-### *Deploy:* `link`
+### *Deploy:* [Streamlit](https://thyroid-mlflow-app-nmuqcrdyphykusflghvnvc.streamlit.app/)
 
 ## Thyroid Diagnosis Challenges
 Thyroid disorders affect many people worldwide, the challenge for healthcare professionals in accurately diagnosing. The Thyroid App using Streamlit, to streamline the diagnostic process and help healthcare professionals to make informed decisions.
