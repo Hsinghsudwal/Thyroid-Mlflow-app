@@ -6,7 +6,7 @@ import joblib
 from sklearn.preprocessing import LabelEncoder
 from utility_file import Utility
 
-params = Utility().read_params()
+param = Utility().read_params()
 Utility().create_folder("models")
 
 
@@ -19,8 +19,8 @@ class Preprocessor:
 
         try:
             logging.info("Preprocessing has started.")
-            artifacts_path = params["data_location"]["data_artifact"]
-            data_file_path = params["data_location"]["raw_data_filename"]
+            artifacts_path = param["data_location"]["data_artifact"]
+            data_file_path = param["data_location"]["raw_data_filename"]
             DATA_PATH = os.path.join(artifacts_path, data_file_path)
             logging.info("Reading the data to perform preprocess")
             df = pd.read_csv(DATA_PATH)
@@ -53,9 +53,9 @@ class Preprocessor:
             logging.info("Processed Categorical and Numerical columns.")
 
             # Saving the loaded data to the artificat folder
-            main_data_folder = params["data_location"]["data_artifact"]
+            main_data_folder = param["data_location"]["data_artifact"]
             Utility().create_folder(main_data_folder)
-            filename = params["data_location"]["preprocess_file"]
+            filename = param["data_location"]["preprocess_file"]
             # Saving the loaded data to the Data folder
             logging.info("saved csv file to the artifacts folder-> process.csv file")
             df.to_csv(
@@ -65,8 +65,8 @@ class Preprocessor:
 
             # Data Transformer
             logging.info("Columns Transformed has started")
-            artifacts_path = params["data_location"]["data_artifact"]
-            process_file = params["data_location"]["preprocess_file"]
+            artifacts_path = param["data_location"]["data_artifact"]
+            process_file = param["data_location"]["preprocess_file"]
             data_path_file = os.path.join(artifacts_path, process_file)
             data = pd.read_csv(data_path_file)
 
@@ -83,9 +83,9 @@ class Preprocessor:
                 except:
                     continue
 
-            artifactFolder = params["data_location"]["data_artifact"]
+            artifactFolder = param["data_location"]["data_artifact"]
             Utility().create_folder(artifactFolder)
-            filename = params["data_location"]["transformer_file"]
+            filename = param["data_location"]["transformer_file"]
             # Saving the loaded data to the Data folder
             data.to_csv(
                 os.path.join(artifactFolder, str(filename)), index=False, sep=","
@@ -94,12 +94,19 @@ class Preprocessor:
                 "saved csv file to the artificats folder -> transformer.csv file."
             )
             # Save the label encoder using joblib for later use
-            target = params["basic"]["target_column_name"]
+            target = param["basic"]["target_column_name"]
             y = data[target]
             logging.info("Saving target label encoder to model folder -> model joblib.")
             label_encoder = LabelEncoder()
             target_encoded = label_encoder.fit_transform(y)
-            joblib.dump(target_encoded, "models\label_encoder.joblib")
+
+            #modelfolder = params["data_location"]["main_model_folder"]
+            #Utility().create_folder(modelfolder)
+            #pklfilename = params["data_location"]["main_label_encoder"]
+            #pkl_name = os.path.join(modelfolder, str(pklfilename))
+            #print(pkl_name)
+
+            joblib.dump(target_encoded, 'models\label_encoder.joblib')
             logging.info("Columns transforming has finished")
             # print(data)
 

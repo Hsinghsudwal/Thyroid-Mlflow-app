@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1712706497165
+current_stage: None
+description: null
+last_updated_timestamp: 1712706497165
+name: SVC-model
+run_id: b5959cd73ef74d12b97ba9f079e41753
+run_link: null
+source: file:///C:/Users/sudwa/Desktop/Workspace/MY-PROJECTS/Thyroid-Mlflow-app/mlruns/0/b5959cd73ef74d12b97ba9f079e41753/artifacts/sklearn-model
+status: READY
+status_message: null
+storage_location: file:///C:/Users/sudwa/Desktop/Workspace/MY-PROJECTS/Thyroid-Mlflow-app/mlruns/0/b5959cd73ef74d12b97ba9f079e41753/artifacts/sklearn-model
+user_id: null
+version: 7

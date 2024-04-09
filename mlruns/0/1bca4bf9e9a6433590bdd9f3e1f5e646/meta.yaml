@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/sudwa/Desktop/Workspace/MY-PROJECTS/Thyroid-Mlflow-app/mlruns/0/1bca4bf9e9a6433590bdd9f3e1f5e646/artifacts
+end_time: 1712700782433
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 1bca4bf9e9a6433590bdd9f3e1f5e646
+run_name: SVCC
+run_uuid: 1bca4bf9e9a6433590bdd9f3e1f5e646
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712700773718
+status: 4
+tags: []
+user_id: sudwa

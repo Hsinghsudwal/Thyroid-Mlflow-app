@@ -1,0 +1,39 @@
+artifact_path: sklearn-model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.14
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.4.2
+mlflow_version: 2.11.3
+model_size_bytes: 495547
+model_uuid: 1b7f15c6a58d4b15ba3c02cca9c4a9bd
+run_id: 6bf125c7556f425a9282dda1cbd72e8a
+signature:
+  inputs: '[{"type": "long", "name": "age", "required": true}, {"type": "long", "name":
+    "sex", "required": true}, {"type": "long", "name": "on_thyroxine", "required":
+    true}, {"type": "long", "name": "query_on_thyroxine", "required": true}, {"type":
+    "long", "name": "on_antithyroid_medication", "required": true}, {"type": "long",
+    "name": "sick", "required": true}, {"type": "long", "name": "pregnant", "required":
+    true}, {"type": "long", "name": "thyroid_surgery", "required": true}, {"type":
+    "long", "name": "I131_treatment", "required": true}, {"type": "long", "name":
+    "query_hypothyroid", "required": true}, {"type": "long", "name": "query_hyperthyroid",
+    "required": true}, {"type": "long", "name": "lithium", "required": true}, {"type":
+    "long", "name": "goitre", "required": true}, {"type": "long", "name": "tumor",
+    "required": true}, {"type": "long", "name": "hypopituitary", "required": true},
+    {"type": "long", "name": "psych", "required": true}, {"type": "long", "name":
+    "TSH", "required": true}, {"type": "long", "name": "T3", "required": true}, {"type":
+    "long", "name": "TT4", "required": true}, {"type": "long", "name": "T4U", "required":
+    true}, {"type": "long", "name": "FTI", "required": true}, {"type": "long", "name":
+    "referral_source", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int32", "shape": [-1]}}]'
+  params: null
+utc_time_created: '2024-04-09 23:00:43.505648'

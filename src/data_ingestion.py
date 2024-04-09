@@ -9,7 +9,7 @@ from src.data_preprocess import Preprocessor
 from src.model_trainer import Model
 # import aws
 
-params = Utility().read_params()
+param = Utility().read_params()
 
 class MakeDataset:
 
@@ -29,19 +29,19 @@ class MakeDataset:
             #data_url = params['data_location']['notebook_data']
             #raw_data_filename = params['data_location']['raw_data_filename']
 
-            url = params['data_location']['notebook_data']
-            raw_data_filename = params['data_location']['raw_data_filename']
+            url = param['data_location']['notebook_data']
+            raw_data_filename = param['data_location']['raw_data_filename']
 
 
             # getting data url from params.yaml file
-            url = params['data_location']['notebook_data']
+            url = param['data_location']['notebook_data']
 
             logging.info("reading csv to dataset")
             # Reading the csv file
 
             data = pd.read_csv(url)
 
-            main_data_folder = params['data_location']['data_artifact']
+            main_data_folder = param['data_location']['data_artifact']
 
             # Creating a Data folder to save the loaded data
             Utility().create_folder(main_data_folder)

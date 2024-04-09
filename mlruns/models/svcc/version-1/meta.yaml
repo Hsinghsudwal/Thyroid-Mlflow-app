@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1712701784768
+current_stage: None
+description: ''
+last_updated_timestamp: 1712701784768
+name: svcc
+run_id: 83890969b830429b8c7369ce84b9bcc3
+run_link: ''
+source: file:///C:/Users/sudwa/Desktop/Workspace/MY-PROJECTS/Thyroid-Mlflow-app/mlruns/0/83890969b830429b8c7369ce84b9bcc3/artifacts/model
+status: READY
+status_message: null
+storage_location: file:///C:/Users/sudwa/Desktop/Workspace/MY-PROJECTS/Thyroid-Mlflow-app/mlruns/0/83890969b830429b8c7369ce84b9bcc3/artifacts/model
+user_id: null
+version: 1
