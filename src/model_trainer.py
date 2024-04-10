@@ -138,8 +138,8 @@ class Model:
                 
                 # For Remote server (AWS)(DAGShub)
                 remort_server_uri = "https://dagshub.com/Hsinghsudwal/Thyroid-Mlflow-app.mlflow"
-                #mlflow.set_tracking_uri(remort_server_uri)
-                # mlflow.set_tracking_uri(remort_server_uri)
+                mlflow.set_tracking_uri(remort_server_uri)
+
                 signature = infer_signature(X_train, y_pred)
                 tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
                 if tracking_url_type_store != "file":
@@ -148,7 +148,7 @@ class Model:
                         sk_model=svcc,
                         artifact_path="sklearn-model",
                         signature=signature,
-                        registered_model_name="SVC-model",
+                        registered_model_name="SVC-uri",
     )
                 else:
                     # Log the sklearn model and register as version 1
