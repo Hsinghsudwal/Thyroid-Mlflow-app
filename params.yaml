@@ -8,7 +8,8 @@ basic:
   target_column_name: classes
 
 data_location:
-  notebook_data: notebook\thyroid.csv
+  #notebook_data: notebook\thyroid.csv
+  notebook_data: https://raw.githubusercontent.com/Hsinghsudwal/Dataset-Files/main/thyroid.csv
   data_artifact: artifacts
   raw_data_filename: raw.csv
   preprocess_file: process_clean.csv

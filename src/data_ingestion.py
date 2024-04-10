@@ -40,6 +40,7 @@ class MakeDataset:
             # Reading the csv file
 
             data = pd.read_csv(url)
+            #print(data.head(5))
 
             main_data_folder = param['data_location']['data_artifact']
 
@@ -54,3 +55,8 @@ class MakeDataset:
         except Exception as e:
             logging.error(e)
             raise e
+        
+        if __name__=="__main__":
+            mk=MakeDataset()
+            mk.load_and_save()
+
