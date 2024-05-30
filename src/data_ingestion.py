@@ -39,7 +39,19 @@ class MakeDataset:
 
             df=pd.DataFrame(newlist)
             df = df.drop(
-                ["TBG"], axis=1)
+                [
+                    "_id",
+                    "Unnamed: 0",
+                    "TSH_measured",
+                    "T3_measured",
+                    "TT4_measured",
+                    "T4U_measured",
+                    "FTI_measured",
+                    "TBG_measured",
+                    "TBG"
+                ],
+                axis=1,
+            )
             # print(df.head())
 
             artifacts_folder = params['DATA_LOCATION']['DATA_ARTIFACTS']
