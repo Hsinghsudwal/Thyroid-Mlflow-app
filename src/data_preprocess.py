@@ -1,12 +1,13 @@
 import pandas as pd
 import numpy as np
-from logger import logging
+from src.logger import logging
 import os
 import joblib
 from sklearn.preprocessing import LabelEncoder
-from utility_file import Utility
+from src.utility_file import Utility
+from src.yaml_file import read_yaml_file, write_yaml_file
 
-param = Utility().read_params()
+params = Utility().read_params()
 Utility().create_folder("models")
 
 
@@ -15,101 +16,131 @@ class Preprocessor:
     def __init__(self) -> None:
         pass
 
-    def preprocess_data(self):
-
+    @staticmethod
+    def read_data(file_path) -> pd.DataFrame:
         try:
-            logging.info("Preprocessing has started.")
-            artifacts_path = param["data_location"]["data_artifact"]
-            data_file_path = param["data_location"]["raw_data_filename"]
-            DATA_PATH = os.path.join(artifacts_path, data_file_path)
-            logging.info("Reading the data to perform preprocess")
-            df = pd.read_csv(DATA_PATH)
-            # print(df.head(5))
-            df["age"] = np.where(df["age"] > 100, np.nan, df["age"])
+            return pd.read_csv(file_path)
+        except Exception as e:
+            raise e
 
-            df = df.drop(
-                [
-                    "Unnamed: 0",
-                    "TSH_measured",
-                    "T3_measured",
-                    "TT4_measured",
-                    "T4U_measured",
-                    "FTI_measured",
-                    "TBG_measured",
-                    "TBG",
-                ],
-                axis=1,
-            )
-
-            numerical_columns = df.select_dtypes(include=np.number)
-            categorical_columns = df.select_dtypes(exclude="number")
-
-            for i in numerical_columns:
-                df[i].fillna(df[i].median(), inplace=True)
-
-            for cat in categorical_columns:
-                df[cat].fillna(method="ffill", inplace=True)
-
-            logging.info("Processed Categorical and Numerical columns.")
-
-            # Saving the loaded data to the artificat folder
-            main_data_folder = param["data_location"]["data_artifact"]
-            Utility().create_folder(main_data_folder)
-            filename = param["data_location"]["preprocess_file"]
-            # Saving the loaded data to the Data folder
-            logging.info("saved csv file to the artifacts folder-> process.csv file")
-            df.to_csv(
-                os.path.join(main_data_folder, str(filename)), index=False, sep=","
-            )
-            logging.info("Preprocessing has completed")
-
-            # Data Transformer
-            logging.info("Columns Transformed has started")
-            artifacts_path = param["data_location"]["data_artifact"]
-            process_file = param["data_location"]["preprocess_file"]
-            data_path_file = os.path.join(artifacts_path, process_file)
-            data = pd.read_csv(data_path_file)
-
-            # Spliting the data into dependent and independent
-            X = data.drop(["classes"], axis=1)
-            # y=data['classes']
-
-            logging.info("Label Encoder Categorical Features.")
-            # using label encoder to normalize values
-            le = LabelEncoder()
-            for i in X:
-                try:
-                    data[i] = le.fit_transform(data[i])
-                except:
-                    continue
-
-            artifactFolder = param["data_location"]["data_artifact"]
-            Utility().create_folder(artifactFolder)
-            filename = param["data_location"]["transformer_file"]
-            # Saving the loaded data to the Data folder
-            data.to_csv(
-                os.path.join(artifactFolder, str(filename)), index=False, sep=","
-            )
-            logging.info(
-                "saved csv file to the artificats folder -> transformer.csv file."
-            )
-            # Save the label encoder using joblib for later use
-            target = param["basic"]["target_column_name"]
-            y = data[target]
-            logging.info("Saving target label encoder to model folder -> model joblib.")
-            label_encoder = LabelEncoder()
-            target_encoded = label_encoder.fit_transform(y)
-
-            #modelfolder = params["data_location"]["main_model_folder"]
-            #Utility().create_folder(modelfolder)
-            #pklfilename = params["data_location"]["main_label_encoder"]
-            #pkl_name = os.path.join(modelfolder, str(pklfilename))
-            #print(pkl_name)
-
-            joblib.dump(target_encoded, 'models\label_encoder.joblib')
-            logging.info("Columns transforming has finished")
-            # print(data)
+    def data_validate(file_path):
+        try:
+            logging.info("Validating the data, before pre-process started")
+            # report_path = read_yaml_file("metrics/report.yaml")
+            report_path = read_yaml_file(file_path)
+            # dict_list=list(report_path.keys())
+            dict_list_value = list(report_path.values())
+            # print(dict_list_value[0])
+            status = False
+            if dict_list_value[0] == status:
+                logging.info("Data validation is completed")
 
         except Exception as e:
             logging.error(e)
             raise e
+
+
+    def data_preprocess(self):
+        try:
+            logging.info("Preprocessing has started.")
+            path_dir = "metrics/report.yaml"
+            Preprocessor.data_validate(path_dir)
+
+            # paths
+            target = params["BASIC"]["TARGET_COLUMN"]
+            artifact_folder = params["DATA_LOCATION"]["DATA_ARTIFACTS"]
+            raw_path = params["DATA_LOCATION"]["RAW_FILE_NAME"]
+            train_path = params["DATA_LOCATION"]["TRAIN_FILE_NAME"]
+            test_path = params["DATA_LOCATION"]["TRAIN_FILE_NAME"]
+
+            train_data = Preprocessor.read_data(
+                os.path.join(artifact_folder, train_path)
+            )
+            test_data = Preprocessor.read_data(os.path.join(artifact_folder, test_path))
+
+            #TRAINING
+            train_data["age"] = np.where(train_data["age"] > 100, np.nan, train_data["age"])
+            train_numerical_columns = train_data.select_dtypes(include=np.number)
+            train_categorical_columns = train_data.select_dtypes(exclude="number")
+
+            for i in train_numerical_columns:
+                train_data[i].fillna(train_data[i].median(), inplace=True)
+
+            for cat in train_categorical_columns:
+                train_data[cat].fillna(method="ffill", inplace=True)
+
+            logging.info("Processed Categorical and Numerical columns for training.")
+            
+
+            #TESTING
+            test_data["age"] = np.where(test_data["age"] > 100, np.nan, test_data["age"])
+            test_numerical_columns = test_data.select_dtypes(include=np.number)
+            test_categorical_columns = test_data.select_dtypes(exclude="number")
+
+            for i in test_numerical_columns:
+                test_data[i].fillna(test_data[i].median(), inplace=True)
+
+            for cat in test_categorical_columns:
+                test_data[cat].fillna(method="ffill", inplace=True)
+
+            logging.info("Processed Categorical and Numerical columns for testing.")
+
+
+            # Saving the loaded data to the artificat folder for train
+            Utility().create_folder(artifact_folder)
+            filename = params["DATA_LOCATION"]["PREPROCESS_TRAIN_NAME"]
+            # Saving the loaded data to the Data folder
+            logging.info("saved csv file to the artifacts folder-> process_train_clean.csv file")
+            train_data.to_csv(
+                os.path.join(artifact_folder, str(filename)), index=False, sep=","
+            )
+
+            # Saving the loaded data to the artificat folder for test
+            Utility().create_folder(artifact_folder)
+            filename = params["DATA_LOCATION"]["PREPROCESS_TEST_NAME"]
+            # Saving the loaded data to the Data folder
+            logging.info("saved csv file to the artifacts folder-> process_test_clean.csv file")
+            test_data.to_csv(
+                os.path.join(artifact_folder, str(filename)), index=False, sep=","
+            )
+            logging.info("Preprocessing has completed")
+
+            # using label encoder to normalize values for train
+            train_df_input_feature = train_data.drop([target],axis=1)
+            train_df_target_feature = train_data[target]
+            test_df_input_feature = test_data.drop([target],axis=1)
+            test_df_target_feature = test_data[target]
+
+            le = LabelEncoder()
+            for i in train_df_input_feature:
+                try:
+                    train_df_input_feature[i] = le.fit_transform(train_df_input_feature[i])
+                except:
+                    continue
+
+            # using label encoder to normalize values for test
+            le_test = LabelEncoder()
+            for i in test_df_input_feature:
+                try:
+                    test_df_input_feature[i] = le_test.fit_transform(test_df_input_feature[i])
+                except:
+                    continue
+
+            xtrain=train_df_input_feature
+            xtest=train_df_target_feature
+            ytrain=test_df_input_feature
+            ytest=test_df_target_feature
+
+            logging.info(f"{xtrain.shape, xtest.shape, ytrain.shape, ytest.shape}")
+            logging.info("Saved preprocessing object.")
+
+            # Utility().create_folder(model_dir)
+            joblib.dump(le, "models\label_encoder.joblib")
+
+            return (xtrain, ytrain, xtest, ytest)
+
+        except Exception as e:
+            logging.error(e)
+            raise e
+
+        
