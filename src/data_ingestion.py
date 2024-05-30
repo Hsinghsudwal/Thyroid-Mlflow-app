@@ -38,24 +38,10 @@ class MakeDataset:
             # print(newlist)
 
             df=pd.DataFrame(newlist)
-            df = df.drop(
-                [
-                    "_id",
-                    "Unnamed: 0",
-                    "TSH_measured",
-                    "T3_measured",
-                    "TT4_measured",
-                    "T4U_measured",
-                    "FTI_measured",
-                    "TBG_measured",
-                    "TBG"
-                ],
-                axis=1,
-            )
             # print(df.head())
 
+            # DATA_PATH
             artifacts_folder = params['DATA_LOCATION']['DATA_ARTIFACTS']
-            # Creating a Data folder to save the loaded data
             Utility().create_folder(artifacts_folder)
 
             raw_file=params['DATA_LOCATION']['RAW_FILE_NAME']
