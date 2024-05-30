@@ -3,13 +3,11 @@ import os
 import sys
 from src.logger import logging
 from scipy.stats import ks_2samp
-from src.utility_file import Utility
-from src.yaml_file import read_yaml_file, write_yaml_file
+from src.utility_file import *
+# Utility, read_yaml_file, write_yaml_file
+# from src.utility_file import read_yaml_file, write_yaml_file
 
 params = Utility().read_params()
-# yml=Utility().read_yaml_file()
-
-
 class DataValidation:
 
     def __init__(self) -> None:
@@ -30,10 +28,10 @@ class DataValidation:
             logging.info("Loading schema file for data validation")
             SCHEMA_FILE_PATH = os.path.join("config", "schema.yaml")
 
-            schema_config = read_yaml_file(SCHEMA_FILE_PATH)
+            schema_config = Utility.read_yaml_file(SCHEMA_FILE_PATH)
 
             number_of_columns = len(schema_config["columns"])
-            print(number_of_columns)
+            # print(number_of_columns)
 
             # reading paths
             artifact_dir = params["DATA_LOCATION"]["DATA_ARTIFACTS"]
@@ -80,8 +78,8 @@ class DataValidation:
                 Utility().create_folder(metric_path_folder)
                 drift_report_file_path = os.path.join(metric_path_folder, str(report_name))
 
-                write_yaml_file(drift_report_file_path,report)
-                logging.info("Output metics-> report.json.")
+                Utility.write_yaml_file(drift_report_file_path,report)
+                logging.info("Output metics-> metrics/report.json.")
 
             else:
                 logging.error("Error has occurred due to data drift")
