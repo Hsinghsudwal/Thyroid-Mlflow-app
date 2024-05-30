@@ -1,15 +1,18 @@
 import pandas as pd
 import numpy as np
-from logger import logging
 import os
-from utility_file import Utility
+from src.logger import logging
+from src.utility_file import Utility
+from sklearn.model_selection import train_test_split
+import pymongo
+from pymongo import MongoClient
+from dotenv import load_dotenv
+load_dotenv()
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.data_preprocess import Preprocessor
-from src.model_trainer import Model
 # import aws
 
-param = Utility().read_params()
+params = Utility().read_params()
 
 class MakeDataset:
 
@@ -17,46 +20,56 @@ class MakeDataset:
         pass
 
     def load_and_save(self):
-        """This method is used to read the data from aws s3 storage and save to local drive.
-
-        Returns
-        --------
-        None
-        """
 
         try:
             logging.info('Loading of data from the source has started.')
-            #data_url = params['data_location']['notebook_data']
-            #raw_data_filename = params['data_location']['raw_data_filename']
 
-            url = param['data_location']['notebook_data']
-            raw_data_filename = param['data_location']['raw_data_filename']
+            url= MongoClient(os.getenv('connection_to'))
+            #database
+            db=url['Thyroid-Database']
+            # print(db)
 
+            #collection
+            collec=db['Thyroid-Collection']
+            x=collec.find()
+            newlist=[]
+            for data in x:
+                newlist.append(data)
+            # print(newlist)
 
-            # getting data url from params.yaml file
-            url = param['data_location']['notebook_data']
+            df=pd.DataFrame(newlist)
+            df = df.drop(
+                ["TBG"], axis=1)
+            # print(df.head())
 
-            logging.info("reading csv to dataset")
-            # Reading the csv file
-
-            data = pd.read_csv(url)
-            #print(data.head(5))
-
-            main_data_folder = param['data_location']['data_artifact']
-
+            artifacts_folder = params['DATA_LOCATION']['DATA_ARTIFACTS']
             # Creating a Data folder to save the loaded data
-            Utility().create_folder(main_data_folder)
+            Utility().create_folder(artifacts_folder)
 
-            # Saving the loaded data to the Data folder
-            data.to_csv(os.path.join(main_data_folder, str(
-                raw_data_filename)), index=False, sep=',')
-            logging.info("File has saved to artifact folder ")
+            raw_file=params['DATA_LOCATION']['RAW_FILE_NAME']
+            train_file=params['DATA_LOCATION']['TRAIN_FILE_NAME']
+            test_file=params['DATA_LOCATION']['TEST_FILE_NAME']
+
+            logging.info("Saving raw file to artifact folder -> raw.csv ")
+            df.to_csv(os.path.join(artifacts_folder, str(
+                raw_file)), index=False, sep=',')
+            
+            train_set,test_set=train_test_split(df,test_size=0.2, random_state=42)
+
+            train_data_path=os.path.join(artifacts_folder,str(train_file))
+            test_data_path=os.path.join(artifacts_folder,str(test_file))
+
+            train_set.to_csv(train_data_path, index=False, header=True)
+            test_set.to_csv(test_data_path, index=False, header=True)
+            logging.info("Saving train file to artifact folder -> train.csv ")
+            logging.info("Saving test file to artifact folder -> test.csv ")
+
+            logging.info("Data Ingestion has completed")
+
+            return(train_data_path,test_data_path)
 
         except Exception as e:
             logging.error(e)
             raise e
         
-        if __name__=="__main__":
-            mk=MakeDataset()
-            mk.load_and_save()
 
